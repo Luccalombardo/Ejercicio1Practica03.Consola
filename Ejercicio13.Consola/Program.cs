@@ -1,60 +1,101 @@
-﻿namespace Ejercicio13.Consola
+﻿
+
+
+namespace Ejercicio13.Consola
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Convertidor de Temperaturas");
-            Console.WriteLine("Elija la conversión que desea hacer:");
-            Console.WriteLine("1. Celsius a Fahrenheit");
-            Console.WriteLine("2. Fahrenheit a Celsius");
-            Console.Write("Opción (1/2): ");
+            Console.WriteLine("Ingresar 3 números cual quiera y distintos entre ellos y se motraran en orden");
+            Console.Write("Ingrese el primer numero: ");
+            string? inputNro1 = Console.ReadLine();
+            Console.Write("Ingrese el segundo numero: ");
+            string? inputNro2 = Console.ReadLine();
+            Console.Write("Ingrese el tercer numero: ");
+            string? inputNro3 = Console.ReadLine();
+            Console.WriteLine("Ingrese la opcion segun el tipo de ordenamiento que quiera");
+            Console.WriteLine("1 - De Menor a Mayor");
+            Console.WriteLine("2 - De Mayor a Menor");
+            Console.Write("Ingrese opciones (1/2): ");
             string? inputOpcion = Console.ReadLine();
-
-            Console.Write("Ingrese la temperatura: ");
-            string? inputTemp = Console.ReadLine();
-
-            if (int.TryParse(inputOpcion, out int opcion) && double.TryParse(inputTemp, out double temperatura))
+            if(int.TryParse(inputNro1, out int numero1) && int.TryParse(inputNro2, out int numero2) && int.TryParse(inputNro3, out int numero3) && int.TryParse(inputOpcion, out int menuOpcion) && NumerosDistinto(numero1,numero2, numero3))
             {
-                if (ValidarMinimo(temperatura, opcion))
+                int nroMayor = CualEsMayor(numero1, numero2, numero3);
+                int nroMenor = CualEsMenor(numero1, numero2, numero3);
+                int nroMedio = CualEsMedio(numero1, numero2, numero3);
+                
+
+                switch(menuOpcion)
                 {
-                    double resultado = CalcularConversion(temperatura, opcion);
-                    string escalaDestino = opcion == 1 ? "Fahrenheit" : "Celsius";
-                    Console.WriteLine($"La temperatura convertida es {resultado:F2} grados {escalaDestino}.");
+                    case 1:
+                        Console.WriteLine($"Los numeros de Menor a Mayor son {nroMenor}, {nroMedio}, {nroMayor}");
+                        break;
+                    case 2:
+                        Console.WriteLine($"Los numeros de Mayor a Menor son {nroMayor}, {nroMedio}, {nroMenor}");
+                        break;
+                    default:
+                        Console.WriteLine("El valor ingresado no esta entre las opciones disponibles");
+                        break;
                 }
-                else
-                {
-                    Console.WriteLine("La temperatura ingresada es menor al mínimo absoluto permitido.");
-                }
+
             }
             else
             {
-                Console.WriteLine("Error: Alguno de los valores introducidos no son válidos.");
+                Console.WriteLine("ERROR: los numeros ingresados no son validos");
             }
         }
 
-        private static bool ValidarMinimo(double temperatura, int opcion)
+        private static bool NumerosDistinto(int numero1, int numero2, int numero3)
         {
-            // Opción 1: Celsius a Fahrenheit, no menor a -273.15°C
-            // Opción 2: Fahrenheit a Celsius, no menor a -459.67°F
-            if (opcion == 1)
-                return temperatura >= -273.15;
-            else if (opcion == 2)
-                return temperatura >= -459.67;
-            else
-                return false;
+            return (numero1 != numero2) && (numero2 != numero3) && (numero3 != numero1);
         }
 
-        private static double CalcularConversion(double temperatura, int opcion)
+        private static int CualEsMedio(int numero1, int numero2, int numero3)
         {
-            switch (opcion)
+            if (numero1 != CualEsMenor(numero1, numero2, numero3) && numero1 != CualEsMayor(numero1, numero2, numero3)) 
             {
-                case 1:
-                    return 1.8 * temperatura + 32; // Celsius a Fahrenheit
-                case 2:
-                    return (temperatura - 32) * 5 / 9; // Fahrenheit a Celsius
-                default:
-                    return 0;
+                return numero1;
+            }
+            else if (numero2 != CualEsMenor(numero1, numero2, numero3) && numero2 != CualEsMayor(numero1, numero2, numero3))
+            {
+                return numero2;
+            }
+            else
+            {
+                return numero3;
+            }
+        }
+
+        private static int CualEsMenor(int numero1, int numero2, int numero3)
+        {
+            if (numero1 < numero2 && numero1 < numero3)
+            {
+                return numero1;
+            }
+            else if (numero2 < numero1 && numero2 < numero3)
+            {
+                return numero2;
+            }
+            else
+            {
+                return numero3;
+            }
+        }
+
+        private static int CualEsMayor(int numero1, int numero2, int numero3)
+        {
+            if(numero1 > numero2 && numero1> numero3)
+            {
+                return numero1;
+            }
+            else if(numero2>numero1 && numero2 > numero3)
+            {
+                return numero2;
+            }
+            else
+            {
+                return numero3;
             }
         }
     }
