@@ -25,7 +25,7 @@ namespace Ejercicio08.Consola
             {
                 if (ValidarMinimo(celsius))
                 {
-                    Console.WriteLine($"La conversion de {celsius} grado Celsius son {CalculoConversion(celsius, opcion)} de grado {QueES(opcion)}");
+                    Console.WriteLine($"La conversion de {celsius:f3} grado Celsius son {CalculoConversion(celsius, opcion):f3} de grado {QueES(opcion)}");
                     
                 }
                 else
